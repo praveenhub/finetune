@@ -1,0 +1,13 @@
+# Deptry configuration
+# See: https://deptry.com/configuration/
+
+[settings]
+# Exclude transformers as it's an optional dependency
+exclude_packages = ["transformers", "torch"]
+
+# Configure handling of direct imports of transitive dependencies
+transitive_dependencies = "warn"
+
+# Allow importing conditional imports at runtime
+[settings.known_first_party]
+# List any modules to be treated as first-party

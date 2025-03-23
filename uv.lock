@@ -1,5 +1,20 @@
 version = 1
+revision = 1
 requires-python = ">=3.9, <4.0"
+resolution-markers = [
+    "python_full_version >= '3.12'",
+    "python_full_version >= '3.10' and python_full_version < '3.12'",
+    "python_full_version < '3.10'",
+]
+
+[[package]]
+name = "attrs"
+version = "25.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/5a/b0/1367933a8532ee6ff8d63537de4f1177af4bff9f3e829baf7331f595bb24/attrs-25.3.0.tar.gz", hash = "sha256:75d7cefc7fb576747b2c81b4442d4d4a1ce0900973527c011d1030fd3bf4af1b", size = 812032 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/77/06/bb80f5f86020c4551da315d78b3ab75e8228f89f0162f2c3a819e407941a/attrs-25.3.0-py3-none-any.whl", hash = "sha256:427318ce031701fea540783410126f03899a97ffc6f61596ad581ac2e40e3bc3", size = 63815 },
+]
 
 [[package]]
 name = "babel"
@@ -287,41 +302,6 @@ wheels = [
 ]
 
 [[package]]
-name = "finetune"
-version = "0.0.1"
-source = { editable = "." }
-
-[package.dev-dependencies]
-dev = [
-    { name = "deptry" },
-    { name = "mkdocs" },
-    { name = "mkdocs-material" },
-    { name = "mkdocstrings", extra = ["python"] },
-    { name = "mypy" },
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "pytest-cov" },
-    { name = "ruff" },
-    { name = "tox-uv" },
-]
-
-[package.metadata]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "deptry", specifier = ">=0.22.0" },
-    { name = "mkdocs", specifier = ">=1.4.2" },
-    { name = "mkdocs-material", specifier = ">=8.5.10" },
-    { name = "mkdocstrings", extras = ["python"], specifier = ">=0.26.1" },
-    { name = "mypy", specifier = ">=0.991" },
-    { name = "pre-commit", specifier = ">=2.20.0" },
-    { name = "pytest", specifier = ">=7.2.0" },
-    { name = "pytest-cov", specifier = ">=4.0.0" },
-    { name = "ruff", specifier = ">=0.9.2" },
-    { name = "tox-uv", specifier = ">=1.11.3" },
-]
-
-[[package]]
 name = "ghp-import"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -343,6 +323,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/6a/ba/1ebe51a22c491a3fc94b44ef9c46a5b5472540e24a5c3f251cebbab7214b/griffe-1.6.1.tar.gz", hash = "sha256:ff0acf706b2680f8c721412623091c891e752b2c61b7037618f7b77d06732cf5", size = 393112 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/1f/d3/a760d1062e44587230aa65573c70edaad4ee8a0e60e193a3172b304d24d8/griffe-1.6.1-py3-none-any.whl", hash = "sha256:b0131670db16834f82383bcf4f788778853c9bf4dc7a1a2b708bb0808ca56a98", size = 128615 },
+]
+
+[[package]]
+name = "hypothesis"
+version = "6.130.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "attrs" },
+    { name = "exceptiongroup", marker = "python_full_version < '3.11'" },
+    { name = "sortedcontainers" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/25/01/3cca6316aaa0474e109f93c8fda2a31c23de92d86f4826f79ea0c0e6d011/hypothesis-6.130.0.tar.gz", hash = "sha256:274050b4518611500a55f7a5d0247a5359dce0107cb20f10323d6b587cc522d2", size = 425943 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/46/2b/638b52450e44d83230a12b1dd366c1c5c315b171432d4b1e8213e0cb5e04/hypothesis-6.130.0-py3-none-any.whl", hash = "sha256:b75e6fc4738d2e2a1b75d151432cb06e1303de3142905cd7060ba293c18376ce", size = 490230 },
 ]
 
 [[package]]
@@ -368,7 +362,7 @@ name = "importlib-metadata"
 version = "8.6.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "zipp" },
+    { name = "zipp", marker = "python_full_version < '3.10'" },
 ]
 sdist = { url = "https://files.pythonhosted.org/packages/33/08/c1395a292bb23fd03bdf572a1357c5a733d3eecbab877641ceacab23db6e/importlib_metadata-8.6.1.tar.gz", hash = "sha256:310b41d755445d74569f993ccfc22838295d9fe005425094fad953d7f15c8580", size = 55767 }
 wheels = [
@@ -768,6 +762,54 @@ wheels = [
 ]
 
 [[package]]
+name = "pytemplate"
+version = "0.0.1"
+source = { editable = "." }
+
+[package.optional-dependencies]
+yaml = [
+    { name = "pyyaml" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "deptry" },
+    { name = "hypothesis" },
+    { name = "mkdocs" },
+    { name = "mkdocs-material" },
+    { name = "mkdocstrings", extra = ["python"] },
+    { name = "mypy" },
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "pytest-cov" },
+    { name = "pytest-mock" },
+    { name = "ruff" },
+    { name = "tox-uv" },
+    { name = "types-pyyaml" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pyyaml", marker = "extra == 'yaml'", specifier = ">=6.0.0" }]
+provides-extras = ["yaml"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "deptry", specifier = ">=0.22.0" },
+    { name = "hypothesis", specifier = ">=6.0.0" },
+    { name = "mkdocs", specifier = ">=1.4.2" },
+    { name = "mkdocs-material", specifier = ">=8.5.10" },
+    { name = "mkdocstrings", extras = ["python"], specifier = ">=0.26.1" },
+    { name = "mypy", specifier = ">=1.0.0" },
+    { name = "pre-commit", specifier = ">=2.20.0" },
+    { name = "pytest", specifier = ">=7.2.0" },
+    { name = "pytest-cov", specifier = ">=4.0.0" },
+    { name = "pytest-mock", specifier = ">=3.10.0" },
+    { name = "ruff", specifier = ">=0.9.2" },
+    { name = "tox-uv", specifier = ">=1.11.3" },
+    { name = "types-pyyaml", specifier = ">=6.0.12" },
+]
+
+[[package]]
 name = "pytest"
 version = "8.3.5"
 source = { registry = "https://pypi.org/simple" }
@@ -795,6 +837,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/be/45/9b538de8cef30e17c7b45ef42f538a94889ed6a16f2387a6c89e73220651/pytest-cov-6.0.0.tar.gz", hash = "sha256:fde0b595ca248bb8e2d76f020b465f3b107c9632e6a1d1705f17834c89dcadc0", size = 66945 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/36/3b/48e79f2cd6a61dbbd4807b4ed46cb564b4fd50a76166b1c4ea5c1d9e2371/pytest_cov-6.0.0-py3-none-any.whl", hash = "sha256:eee6f1b9e61008bd34975a4d5bab25801eb31898b032dd55addc93e96fcaaa35", size = 22949 },
+]
+
+[[package]]
+name = "pytest-mock"
+version = "3.14.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c6/90/a955c3ab35ccd41ad4de556596fa86685bf4fc5ffcc62d22d856cfd4e29a/pytest-mock-3.14.0.tar.gz", hash = "sha256:2719255a1efeceadbc056d6bf3df3d1c5015530fb40cf347c0f9afac88410bd0", size = 32814 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/f2/3b/b26f90f74e2986a82df6e7ac7e319b8ea7ccece1caec9f8ab6104dc70603/pytest_mock-3.14.0-py3-none-any.whl", hash = "sha256:0b72c38033392a5f4621342fe11e9219ac11ec9d375f8e2a0c164539e0d70f6f", size = 9863 },
 ]
 
 [[package]]
@@ -946,6 +1000,15 @@ wheels = [
 ]
 
 [[package]]
+name = "sortedcontainers"
+version = "2.4.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e8/c4/ba2f8066cceb6f23394729afe52f3bf7adec04bf9ed2c820b39e19299111/sortedcontainers-2.4.0.tar.gz", hash = "sha256:25caa5a06cc30b6b83d11423433f65d1f9d76c4c6a0c90e3379eaa43b9bfdb88", size = 30594 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/32/46/9cb0e58b2deb7f82b84065f37f3bffeb12413f947f9388e4cac22c4621ce/sortedcontainers-2.4.0-py2.py3-none-any.whl", hash = "sha256:a163dcaede0f1c021485e957a39245190e74249897e2ae4b2aa38595db237ee0", size = 29575 },
+]
+
+[[package]]
 name = "tomli"
 version = "2.2.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1019,6 +1082,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/5d/3a/3e445f25978a716ba6674f33f687d9336d0312086a277a778a5e9e9220d7/tox_uv-1.25.0.tar.gz", hash = "sha256:59ee5e694c41fef7bbcf058f22a5f9b6a8509698def2ea60c08554f4e36b9fcc", size = 21114 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/3c/a7/f5c29e0e6faaccefcab607f672b176927144e9412c8183d21301ea2a6f6c/tox_uv-1.25.0-py3-none-any.whl", hash = "sha256:50cfe7795dcd49b2160d7d65b5ece8717f38cfedc242c852a40ec0a71e159bf7", size = 16431 },
+]
+
+[[package]]
+name = "types-pyyaml"
+version = "6.0.12.20241230"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/9a/f9/4d566925bcf9396136c0a2e5dc7e230ff08d86fa011a69888dd184469d80/types_pyyaml-6.0.12.20241230.tar.gz", hash = "sha256:7f07622dbd34bb9c8b264fe860a17e0efcad00d50b5f27e93984909d9363498c", size = 17078 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e8/c1/48474fbead512b70ccdb4f81ba5eb4a58f69d100ba19f17c92c0c4f50ae6/types_PyYAML-6.0.12.20241230-py3-none-any.whl", hash = "sha256:fa4d32565219b68e6dee5f67534c722e53c00d1cfc09c435ef04d7353e1e96e6", size = 20029 },
 ]
 
 [[package]]

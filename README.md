@@ -6,71 +6,125 @@
 [![Commit activity](https://img.shields.io/github/commit-activity/m/praveenhub/finetune)](https://img.shields.io/github/commit-activity/m/praveenhub/finetune)
 [![License](https://img.shields.io/github/license/praveenhub/finetune)](https://img.shields.io/github/license/praveenhub/finetune)
 
-This is a template repository for Python projects that use uv for their dependency management.
+A Python package for fine-tuning machine learning models with a clean, modular interface.
 
 - **Github repository**: <https://github.com/praveenhub/finetune/>
-- **Documentation** <https://praveenhub.github.io/finetune/>
+- **Documentation**: <https://praveenhub.github.io/finetune/>
 
-## Getting started with your project
+## Features
 
-### 1. Create a New Repository
+- Generic model fine-tuning interface that works with various ML frameworks
+- Flexible configuration management
+- Command-line interface for easy experimentation
+- Comprehensive logging and metrics tracking
+- Type hints and thorough documentation
+- Extensive test coverage
 
-First, create a repository on GitHub with the same name as this project, and then run the following commands:
+## Installation
+
+### From PyPI
 
 ```bash
-git init -b main
-git add .
-git commit -m "init commit"
-git remote add origin git@github.com:praveenhub/finetune.git
-git push -u origin main
+pip install finetune
 ```
 
-### 2. Set Up Your Development Environment
-
-Then, install the environment and the pre-commit hooks with
+### With Optional Dependencies
 
 ```bash
+# With PyTorch integration
+pip install "finetune[torch]"
+
+# With Transformers support
+pip install "finetune[transformers]"
+
+# With all optional dependencies
+pip install "finetune[all]"
+```
+
+### Development Installation
+
+```bash
+git clone https://github.com/praveenhub/finetune.git
+cd finetune
 make install
 ```
 
-This will also generate your `uv.lock` file
+## Quick Start
 
-### 3. Run the pre-commit hooks
+Here's a simple example of how to use finetune:
 
-Initially, the CI/CD pipeline might be failing due to formatting issues. To resolve those run:
+```python
+from finetune import Model, Trainer, set_seed
 
-```bash
-uv run pre-commit run -a
+# Set seed for reproducibility
+set_seed(42)
+
+# Create a model
+model = Model(name="my_model")
+
+# Create a trainer with default configuration
+trainer = Trainer(model)
+
+# Load your data (numpy arrays)
+import numpy as np
+features = np.random.rand(100, 10)  # 100 samples, 10 features
+labels = np.random.randint(0, 2, size=(100,))  # Binary labels
+
+# Train the model
+metrics = trainer.train(features, labels)
+
+# Make predictions
+predictions = model.predict(features)
 ```
 
-### 4. Commit the changes
+## Command Line Interface
 
-Lastly, commit the changes made by the two steps above to your repository.
+The package includes a CLI for training and making predictions:
 
 ```bash
-git add .
-git commit -m 'Fix formatting issues'
-git push origin main
+# Train a model
+finetune train --model my_model --train-data path/to/train.csv --val-data path/to/val.csv
+
+# Make predictions
+finetune predict --model path/to/saved/model --data path/to/test.csv --output predictions.json
 ```
 
-You are now ready to start development on your project!
-The CI/CD pipeline will be triggered when you open a pull request, merge to main, or when you create a new release.
+## Docker
 
-To finalize the set-up for publishing to PyPI, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/publishing/#set-up-for-pypi).
-For activating the automatic documentation with MkDocs, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/mkdocs/#enabling-the-documentation-on-github).
-To enable the code coverage reports, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/codecov/).
+A Docker image is available for running finetune in an isolated environment:
 
-## Releasing a new version
+```bash
+# Build the Docker image
+docker build -t finetune .
 
-- Create an API Token on [PyPI](https://pypi.org/).
-- Add the API Token to your projects secrets with the name `PYPI_TOKEN` by visiting [this page](https://github.com/praveenhub/finetune/settings/secrets/actions/new).
-- Create a [new release](https://github.com/praveenhub/finetune/releases/new) on Github.
-- Create a new tag in the form `*.*.*`.
+# Run the container
+docker run -it --rm finetune
+```
 
-For more details, see [here](https://fpgmaas.github.io/cookiecutter-uv/features/cicd/#how-to-trigger-a-release).
+## Contributing
+
+Contributions are welcome! Please check out our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+```bash
+# Install development dependencies
+make install
+
+# Run tests
+make test
+
+# Run linting
+make lint
+
+# Run type checking
+make mypy
+```
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
 Repository initiated with [fpgmaas/cookiecutter-uv](https://github.com/fpgmaas/cookiecutter-uv).
-
-This is fun
