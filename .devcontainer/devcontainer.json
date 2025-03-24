@@ -9,6 +9,9 @@
     // Use 'postCreateCommand' to run commands after the container is created.
     "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
 
+    // Configure Git to use fallback key if it exists
+    "postStartCommand": "if [ -f ~/.ssh/id_ed25519 ]; then git config --global core.sshCommand \"ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes\"; fi",
+
     // Configure tool-specific properties.
     "customizations": {
         "vscode": {
@@ -23,11 +26,8 @@
         }
     },
 
-    // SSH agent forwarding configuration
-    "remoteEnv": {
-        "SSH_AUTH_SOCK": "/ssh-agent"
-    },
+    // Mount the SSH directory from the host machine
     "mounts": [
-        "source=${localEnv:SSH_AUTH_SOCK},target=/ssh-agent,type=bind,consistency=cached"
+        "source=${localEnv:HOME}/.ssh,target=/home/vscode/.ssh,type=bind"
     ]
 }
