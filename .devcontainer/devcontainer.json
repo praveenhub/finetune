@@ -7,7 +7,7 @@
     "features": {},
 
     // Use 'postCreateCommand' to run commands after the container is created.
-    "postCreateCommand": "./.devcontainer/postCreateCommand.sh",
+    "postCreateCommand": "bash ./.devcontainer/postCreateCommand.sh",
 
     // Configure tool-specific properties.
     "customizations": {
@@ -21,5 +21,13 @@
                 "python.testing.pytestPath": "/workspaces/finetune/.venv/bin/pytest"
             }
         }
-    }
+    },
+
+    // SSH agent forwarding configuration
+    "remoteEnv": {
+        "SSH_AUTH_SOCK": "/ssh-agent"
+    },
+    "mounts": [
+        "source=${localEnv:SSH_AUTH_SOCK},target=/ssh-agent,type=bind,consistency=cached"
+    ]
 }
