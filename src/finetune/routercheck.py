@@ -60,7 +60,7 @@ def get_openrouter_response(prompt: str) -> ModelResponse:
     else:
         return ModelResponse(
             model_name=model_name,
-            response_text=completion.choices[0].message.content,
+            response_text=str(completion.choices[0].message.content),
             error=None,
             latency_ms=(time.time() - start_time) * 1000,
         )
@@ -96,7 +96,7 @@ def get_gemini_response(prompt: str) -> ModelResponse:
     else:
         return ModelResponse(
             model_name=model_name,
-            response_text=response.text or "",
+            response_text=str(response.text or ""),
             error=None,
             latency_ms=(time.time() - start_time) * 1000,
         )
