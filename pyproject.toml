@@ -16,7 +16,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
-dependencies = []
+dependencies = ["openai>=1.0.0"]
 
 [project.optional-dependencies]
 yaml = ["pyyaml>=6.0.0"]
