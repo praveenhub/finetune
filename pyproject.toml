@@ -18,7 +18,8 @@ classifiers = [
 ]
 dependencies = [
     "openai>=1.0.0",
-    "python-dotenv>=1.0.0"
+    "python-dotenv>=1.0.0",
+    "google-generativeai>=0.3.2"
 ]
 
 [project.optional-dependencies]
