@@ -4,7 +4,7 @@ import json
 import os
 
 from dotenv import load_dotenv
-from google import genai
+from google import genai  # type: ignore[import-untyped]
 from openai import OpenAI
 from pydantic import BaseModel, Field
 
@@ -16,7 +16,7 @@ class ModelResponse(BaseModel):
     """Structured response from AI models."""
 
     model_name: str = Field(..., description="Name of the AI model")
-    response_text: str = Field(..., description="Raw response from the model")
+    response_text: str = Field("", description="Raw response from the model")
     error: str | None = Field(None, description="Error message if any")
     latency_ms: float = Field(..., description="Response time in milliseconds")
 
@@ -38,13 +38,13 @@ def get_openrouter_response(prompt: str) -> ModelResponse:
     try:
         client = OpenAI(
             base_url="https://openrouter.ai/api/v1",
-            api_key=os.getenv("OPENROUTER_API_KEY"),
+            api_key=os.getenv("OPENROUTER_API_KEY") or "",
         )
 
         completion = client.chat.completions.create(
             extra_headers={
-                "HTTP-Referer": os.getenv("SITE_URL"),
-                "X-Title": os.getenv("SITE_NAME"),
+                "HTTP-Referer": os.getenv("SITE_URL") or "",
+                "X-Title": os.getenv("SITE_NAME") or "",
             },
             extra_body={},
             model=model_name,
@@ -81,7 +81,7 @@ def get_gemini_response(prompt: str) -> ModelResponse:
     model_name = "gemini-2.0-flash"
 
     try:
-        client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+        client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY") or "")
         response = client.models.generate_content(
             model=model_name,
             contents=prompt,
@@ -96,7 +96,7 @@ def get_gemini_response(prompt: str) -> ModelResponse:
     else:
         return ModelResponse(
             model_name=model_name,
-            response_text=response.text,
+            response_text=response.text or "",
             error=None,
             latency_ms=(time.time() - start_time) * 1000,
         )
