@@ -1,6 +1,6 @@
 """Presenter for joke generator application."""
 
-from typing import Callable, List, Optional
+from collections.abc import Callable
 
 from pytemplate.controller import JokeController
 
@@ -18,9 +18,9 @@ class JokePresenter:
 
     def __init__(
         self,
-        controller: Optional[JokeController] = None,
-        display_callback: Optional[Callable[[str], None]] = None,
-        error_callback: Optional[Callable[[str], None]] = None
+        controller: JokeController | None = None,
+        display_callback: Callable[[str], None] | None = None,
+        error_callback: Callable[[str], None] | None = None,
     ) -> None:
         """Initialize the presenter.
 
@@ -47,15 +47,14 @@ class JokePresenter:
         if self.controller.add_joke(joke):
             self.display_callback("Joke added successfully!")
         else:
-            self.error_callback(
-                "Invalid joke! Jokes must be at least 10 characters long.")
+            self.error_callback("Invalid joke! Jokes must be at least 10 characters long.")
 
     def run_cli(self) -> None:
         """Run an interactive command-line interface."""
         commands = {
             "1": ("Get a joke", self.display_joke),
             "2": ("Add a joke", lambda: self.add_joke(input("Enter your joke: "))),
-            "3": ("Exit", None)
+            "3": ("Exit", lambda: None),
         }
 
         while True:
@@ -73,4 +72,5 @@ class JokePresenter:
                 self.display_callback("Goodbye!")
                 break
 
-            commands[choice][1]()  # Execute the selected function
+            command_func = commands[choice][1]
+            command_func()
