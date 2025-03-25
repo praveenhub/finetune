@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """Simple script to run the joke generator."""
 
-from pytemplate.presenter import JokePresenter
+import os
+import sys
+
 from pytemplate.controller import JokeController
 from pytemplate.model import JokeModel
-import sys
-import os
 
 # Add the source directory to the path
-sys.path.insert(0, os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "src")))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "src")))
 
 
 def main():

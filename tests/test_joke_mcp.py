@@ -2,10 +2,8 @@
 
 from unittest.mock import MagicMock
 
-import pytest
-
-from pytemplate.model import JokeModel
 from pytemplate.controller import JokeController
+from pytemplate.model import JokeModel
 from pytemplate.presenter import JokePresenter
 
 
@@ -83,17 +81,12 @@ class TestJokePresenter:
 
         mock_display = MagicMock()
 
-        presenter = JokePresenter(
-            controller=mock_controller,
-            display_callback=mock_display,
-            error_callback=MagicMock()
-        )
+        presenter = JokePresenter(controller=mock_controller, display_callback=mock_display, error_callback=MagicMock())
 
         presenter.display_joke()
 
         mock_controller.get_joke.assert_called_once()
-        mock_display.assert_called_once_with(
-            "Here's a joke for you: Test joke")
+        mock_display.assert_called_once_with("Here's a joke for you: Test joke")
 
     def test_add_joke_valid(self) -> None:
         """Test that add_joke with valid joke calls controller and displays success."""
@@ -103,11 +96,7 @@ class TestJokePresenter:
         mock_display = MagicMock()
         mock_error = MagicMock()
 
-        presenter = JokePresenter(
-            controller=mock_controller,
-            display_callback=mock_display,
-            error_callback=mock_error
-        )
+        presenter = JokePresenter(controller=mock_controller, display_callback=mock_display, error_callback=mock_error)
 
         presenter.add_joke("Valid joke")
 
@@ -123,11 +112,7 @@ class TestJokePresenter:
         mock_display = MagicMock()
         mock_error = MagicMock()
 
-        presenter = JokePresenter(
-            controller=mock_controller,
-            display_callback=mock_display,
-            error_callback=mock_error
-        )
+        presenter = JokePresenter(controller=mock_controller, display_callback=mock_display, error_callback=mock_error)
 
         presenter.add_joke("Invalid")
 

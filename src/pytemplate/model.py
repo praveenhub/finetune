@@ -1,9 +1,7 @@
 """Model for joke generation."""
 
-from dataclasses import dataclass, field
-from typing import List
-import random
 import secrets
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -14,7 +12,7 @@ class JokeModel:
         jokes: List of jokes
     """
 
-    jokes: List[str] = field(default_factory=list)
+    jokes: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         """Initialize with some default jokes if none provided."""

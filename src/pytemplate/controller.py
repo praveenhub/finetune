@@ -1,7 +1,5 @@
 """Controller for joke generator application."""
 
-from typing import Optional
-
 from pytemplate.model import JokeModel
 
 
@@ -14,7 +12,7 @@ class JokeController:
         model: The joke data model
     """
 
-    def __init__(self, model: Optional[JokeModel] = None) -> None:
+    def __init__(self, model: JokeModel | None = None) -> None:
         """Initialize the controller.
 
         Args:
