@@ -1293,6 +1293,7 @@ source = { editable = "." }
 dependencies = [
     { name = "google-generativeai" },
     { name = "openai" },
+    { name = "pydantic" },
     { name = "python-dotenv" },
 ]
 
@@ -1322,6 +1323,7 @@ dev = [
 requires-dist = [
     { name = "google-generativeai", specifier = ">=0.3.2" },
     { name = "openai", specifier = ">=1.0.0" },
+    { name = "pydantic", specifier = ">=2.0.0" },
     { name = "python-dotenv", specifier = ">=1.0.0" },
     { name = "pyyaml", marker = "extra == 'yaml'", specifier = ">=6.0.0" },
 ]
