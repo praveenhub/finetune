@@ -3,8 +3,8 @@
 import json
 import os
 
+import google.generativeai as genai  # type: ignore[import-untyped]
 from dotenv import load_dotenv
-from google import genai  # type: ignore[import-untyped]
 from openai import OpenAI
 from pydantic import BaseModel, Field
 
