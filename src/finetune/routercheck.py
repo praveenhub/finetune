@@ -3,13 +3,21 @@
 import json
 import os
 
-import google.generativeai as genai  # type: ignore[import-untyped]
+import google.generativeai as genai
+import requests
 from dotenv import load_dotenv
 from openai import OpenAI
 from pydantic import BaseModel, Field
 
 # Load environment variables
 load_dotenv()
+
+# Configure Gemini
+genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
+
+# Model names from environment
+OPENROUTER_MODEL = os.getenv("OPENROUTER_MODEL")
+GEMINI_MODEL = os.getenv("GEMINI_MODEL")
 
 
 class ModelResponse(BaseModel):
@@ -22,23 +30,15 @@ class ModelResponse(BaseModel):
 
 
 def get_openrouter_response(prompt: str) -> ModelResponse:
-    """Get response from OpenRouter API.
-
-    Args:
-        prompt: The input prompt for the model
-
-    Returns:
-        Structured response including model name, response text, and metadata
-    """
     import time
 
     start_time = time.time()
-    model_name = "deepseek/deepseek-chat-v3-0324:free"
+    model_name = OPENROUTER_MODEL
 
     try:
         client = OpenAI(
             base_url="https://openrouter.ai/api/v1",
-            api_key=os.getenv("OPENROUTER_API_KEY") or "",
+            api_key=os.getenv("OPENROUTER_API_KEY"),
         )
 
         completion = client.chat.completions.create(
@@ -67,37 +67,36 @@ def get_openrouter_response(prompt: str) -> ModelResponse:
 
 
 def get_gemini_response(prompt: str) -> ModelResponse:
-    """Get response from Google's Gemini API.
-
-    Args:
-        prompt: The input prompt for the model
-
-    Returns:
-        Structured response including model name, response text, and metadata
-    """
+    """Get response from Google's Gemini API."""
     import time
 
     start_time = time.time()
     model_name = "gemini-2.0-flash"
+    api_key = os.getenv("GOOGLE_API_KEY")
 
     try:
-        client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY") or "")
-        response = client.models.generate_content(
-            model=model_name,
-            contents=prompt,
+        url = f"https://generativelanguage.googleapis.com/v1beta/models/{model_name}:generateContent"
+        headers = {"Content-Type": "application/json"}
+        data = {"contents": [{"parts": [{"text": prompt}]}]}
+
+        response = requests.post(f"{url}?key={api_key}", headers=headers, json=data, timeout=60)
+        response.raise_for_status()
+        result = response.json()
+
+        # Extract the response text from the result
+        response_text = result.get("candidates", [{}])[0].get("content", {}).get("parts", [{}])[0].get("text", "")
+
+        return ModelResponse(
+            model_name=model_name,
+            response_text=response_text,
+            error=None,
+            latency_ms=(time.time() - start_time) * 1000,
         )
     except Exception as e:
         return ModelResponse(
             model_name=model_name,
             response_text="",
             error=str(e),
-            latency_ms=(time.time() - start_time) * 1000,
-        )
-    else:
-        return ModelResponse(
-            model_name=model_name,
-            response_text=str(response.text or ""),
-            error=None,
             latency_ms=(time.time() - start_time) * 1000,
         )
 
